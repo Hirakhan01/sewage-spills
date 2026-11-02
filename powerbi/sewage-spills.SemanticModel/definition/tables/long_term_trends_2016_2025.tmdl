@@ -3,6 +3,7 @@ table long_term_trends_2016_2025
 
 	column year
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 2f3b378b-090c-42da-9154-06c3d021a084
 		summarizeBy: none
@@ -42,7 +43,7 @@ table long_term_trends_2016_2025
 	column avg_spills_per_overflow
 		dataType: double
 		lineageTag: ae3cf924-2189-403c-a7a8-6623bea27135
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: avg_spills_per_overflow
 
 		annotation SummarizationSetBy = Automatic
@@ -52,7 +53,7 @@ table long_term_trends_2016_2025
 	column hours_per_overflow
 		dataType: double
 		lineageTag: 1f7cdb80-9d6d-44c0-a005-7eb7fc2deb69
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: hours_per_overflow
 
 		annotation SummarizationSetBy = Automatic

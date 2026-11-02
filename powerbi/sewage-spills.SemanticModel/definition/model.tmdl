@@ -14,14 +14,16 @@ queryGroup 'Query Errors - 03-11-2026 02:26:48'
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
 
 annotation PBI_QueryOrder = ["edm_annual_2020_2025","Errors in edm_annual_2020_2025","long_term_trends_2016_2025","like_for_like_2024_2025","reconciliation_vs_ea"]
 
-ref table edm_annual_2020_2025
+ref table 'Fact Overflow Year'
 ref table long_term_trends_2016_2025
 ref table like_for_like_2024_2025
 ref table reconciliation_vs_ea
+ref table 'Dim Company'
+ref table 'Dim Year'
 
 ref cultureInfo en-IN
 

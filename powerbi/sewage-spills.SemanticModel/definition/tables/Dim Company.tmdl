@@ -1,0 +1,16 @@
+/// One row per water and sewerage company, taken from Fact Overflow Year. Excludes blanks and the like_for_like 'ALL COMPANIES' summary row.
+table 'Dim Company'
+	lineageTag: 6ccdca84-3a39-46cd-8528-3fad5fa7f38c
+
+	column 'Water Company'
+		isNameInferred
+		sourceColumn: [Water Company]
+
+	partition 'Dim Company' = calculated
+		mode: import
+		source =
+				FILTER(
+				    DISTINCT(SELECTCOLUMNS('Fact Overflow Year', "Water Company", 'Fact Overflow Year'[water_company])),
+				    [Water Company] <> ""
+				)
+

@@ -1,12 +1,24 @@
-relationship AutoDetected_94ccddad-2096-4661-bd92-6e821e44eb54
-	fromColumn: edm_annual_2020_2025.year
-	toColumn: long_term_trends_2016_2025.year
+relationship 'Fact Overflow Year_water_company_Dim Company_Water Company'
+	fromColumn: 'Fact Overflow Year'.water_company
+	toColumn: 'Dim Company'.'Water Company'
 
-relationship AutoDetected_48c054e8-49f0-4b26-b33a-4a4e4cbf4637
-	fromColumn: reconciliation_vs_ea.year
-	toColumn: long_term_trends_2016_2025.year
+relationship 'like_for_like_2024_2025_water_company_Dim Company_Water Company'
+	fromColumn: like_for_like_2024_2025.water_company
+	toColumn: 'Dim Company'.'Water Company'
 
-relationship AutoDetected_892aa169-b911-4fc3-a0b8-3b7d5f71d6db
+relationship 'reconciliation_vs_ea_water_company_Dim Company_Water Company'
 	fromColumn: reconciliation_vs_ea.water_company
-	toColumn: like_for_like_2024_2025.water_company
+	toColumn: 'Dim Company'.'Water Company'
+
+relationship 'Fact Overflow Year_year_Dim Year_Year'
+	fromColumn: 'Fact Overflow Year'.year
+	toColumn: 'Dim Year'.Year
+
+relationship 'long_term_trends_2016_2025_year_Dim Year_Year'
+	fromColumn: long_term_trends_2016_2025.year
+	toColumn: 'Dim Year'.Year
+
+relationship 'reconciliation_vs_ea_year_Dim Year_Year'
+	fromColumn: reconciliation_vs_ea.year
+	toColumn: 'Dim Year'.Year
 

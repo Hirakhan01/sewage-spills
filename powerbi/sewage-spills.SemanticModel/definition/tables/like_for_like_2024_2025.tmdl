@@ -3,6 +3,7 @@ table like_for_like_2024_2025
 
 	column water_company
 		dataType: string
+		isHidden
 		lineageTag: e7c4be07-b227-4c36-96bf-1828c2ff73f1
 		summarizeBy: none
 		sourceColumn: water_company

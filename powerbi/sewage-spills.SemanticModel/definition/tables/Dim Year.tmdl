@@ -1,0 +1,12 @@
+/// Reporting years 2016-2025. Covers the long-term trends table (2016+) and the annual returns (2020+).
+table 'Dim Year'
+	lineageTag: 8179d8e3-920c-45da-a7f1-929cff3ae65e
+
+	column Year
+		isNameInferred
+		sourceColumn: [Year]
+
+	partition 'Dim Year' = calculated
+		mode: import
+		source = SELECTCOLUMNS(GENERATESERIES(2016, 2025, 1), "Year", [Value])
+

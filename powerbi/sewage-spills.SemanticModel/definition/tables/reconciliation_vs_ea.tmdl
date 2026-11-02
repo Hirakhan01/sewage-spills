@@ -3,6 +3,7 @@ table reconciliation_vs_ea
 
 	column water_company
 		dataType: string
+		isHidden
 		lineageTag: 8963f1ca-567c-4868-b8e8-53725a404d38
 		summarizeBy: none
 		sourceColumn: water_company
@@ -11,6 +12,7 @@ table reconciliation_vs_ea
 
 	column year
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3760f146-0c0e-4b65-af47-b8c9ae982bdc
 		summarizeBy: none
@@ -59,7 +61,7 @@ table reconciliation_vs_ea
 	column spills_per_overflow
 		dataType: double
 		lineageTag: 7ef0e5c4-d919-4f07-b849-ff487618118b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: spills_per_overflow
 
 		annotation SummarizationSetBy = Automatic
@@ -69,7 +71,7 @@ table reconciliation_vs_ea
 	column hours_per_overflow
 		dataType: double
 		lineageTag: 9adfd458-c719-421a-98e4-5d9da032bd34
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: hours_per_overflow
 
 		annotation SummarizationSetBy = Automatic
@@ -79,7 +81,7 @@ table reconciliation_vs_ea
 	column pct_monitors_ok
 		dataType: double
 		lineageTag: 73a80e33-dfaa-4ca5-9622-0318bab2207f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: pct_monitors_ok
 
 		annotation SummarizationSetBy = Automatic
@@ -127,7 +129,7 @@ table reconciliation_vs_ea
 	column diff_spills_pct
 		dataType: double
 		lineageTag: 9f80cf4d-c83f-427a-8db5-58b1a29bf0cc
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: diff_spills_pct
 
 		annotation SummarizationSetBy = Automatic
@@ -137,7 +139,7 @@ table reconciliation_vs_ea
 	column diff_hours_pct
 		dataType: double
 		lineageTag: da3ee143-10fa-4285-8fb7-4a1f57fd65f2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: diff_hours_pct
 
 		annotation SummarizationSetBy = Automatic
