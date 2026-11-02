@@ -240,7 +240,16 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
         frac = df.groupby(["source_file", "source_sheet"])["edm_operation_pct"].transform("max") <= 1
         df.loc[frac, "edm_operation_pct"] = df.loc[frac, "edm_operation_pct"] * 100
 
-    # Drop footer / blank rows that have no site at all
+    # Some overflows have a blank EA site name but do have the company's own
+    # operational name or a permit ref (e.g. ~70 Thames Water rows in 2025).
+    # Keep them: fill the name from the operational name, then the permit ref.
+    df["flag_site_name_filled"] = df["site_name"].isna()
+    for fallback in ("site_name_wasc", "permit_ref"):
+        if fallback in df:
+            df["site_name"] = df["site_name"].fillna(df[fallback])
+    df["flag_site_name_filled"] &= df["site_name"].notna()
+
+    # Drop footer / blank rows (no name or permit at all) and "Total" rows
     df = df[df["site_name"].notna() & ~df["site_name"].str.match(r"(?i)^\s*(grand )?totals?\b")].copy()
 
     # Consistent company names across years
