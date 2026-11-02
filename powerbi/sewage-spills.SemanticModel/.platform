@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "sewage-spills"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "441f087e-1707-43e5-b9b4-a1fb4b27e475"
+  }
+}

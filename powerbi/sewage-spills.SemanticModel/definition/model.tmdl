@@ -1,0 +1,27 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Errors in queries that were loaded on 03-11-2026 02:26:48.
+queryGroup 'Query Errors - 03-11-2026 02:26:48'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["edm_annual_2020_2025","Errors in edm_annual_2020_2025","long_term_trends_2016_2025","like_for_like_2024_2025","reconciliation_vs_ea"]
+
+ref table edm_annual_2020_2025
+ref table long_term_trends_2016_2025
+ref table like_for_like_2024_2025
+ref table reconciliation_vs_ea
+
+ref cultureInfo en-IN
+

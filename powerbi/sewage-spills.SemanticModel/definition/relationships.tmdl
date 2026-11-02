@@ -1,0 +1,12 @@
+relationship AutoDetected_94ccddad-2096-4661-bd92-6e821e44eb54
+	fromColumn: edm_annual_2020_2025.year
+	toColumn: long_term_trends_2016_2025.year
+
+relationship AutoDetected_48c054e8-49f0-4b26-b33a-4a4e4cbf4637
+	fromColumn: reconciliation_vs_ea.year
+	toColumn: long_term_trends_2016_2025.year
+
+relationship AutoDetected_892aa169-b911-4fc3-a0b8-3b7d5f71d6db
+	fromColumn: reconciliation_vs_ea.water_company
+	toColumn: like_for_like_2024_2025.water_company
+

@@ -1,0 +1,73 @@
+table long_term_trends_2016_2025
+	lineageTag: 8212fafd-06c4-4296-8ac4-502d2a19ab39
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f3b378b-090c-42da-9154-06c3d021a084
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column overflows_with_data
+		dataType: int64
+		formatString: 0
+		lineageTag: e22e2e4f-b09b-49cc-907a-e5385896bb34
+		summarizeBy: sum
+		sourceColumn: overflows_with_data
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_spills
+		dataType: double
+		lineageTag: 80b26dd7-15ed-4b8a-9fa3-b037fb149a36
+		summarizeBy: sum
+		sourceColumn: total_spills
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_hours
+		dataType: double
+		lineageTag: 08e6b515-9e6a-4bd6-89c0-06bbe7955727
+		summarizeBy: sum
+		sourceColumn: total_hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_spills_per_overflow
+		dataType: double
+		lineageTag: ae3cf924-2189-403c-a7a8-6623bea27135
+		summarizeBy: sum
+		sourceColumn: avg_spills_per_overflow
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column hours_per_overflow
+		dataType: double
+		lineageTag: 1f7cdb80-9d6d-44c0-a005-7eb7fc2deb69
+		summarizeBy: sum
+		sourceColumn: hours_per_overflow
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition long_term_trends_2016_2025 = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\hira2\Downloads\sewage-spills\sewage-spills\outputs\tables\long_term_trends_2016_2025.csv"), [Delimiter = ",", Columns = 6, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"year", Int64.Type}, {"overflows_with_data", Int64.Type}, {"total_spills", type number}, {"total_hours", type number}, {"avg_spills_per_overflow", type number}, {"hours_per_overflow", type number}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,184 @@
+table reconciliation_vs_ea
+	lineageTag: 7344da1e-4816-43db-b8bc-c756647cd7d6
+
+	column water_company
+		dataType: string
+		lineageTag: 8963f1ca-567c-4868-b8e8-53725a404d38
+		summarizeBy: none
+		sourceColumn: water_company
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 3760f146-0c0e-4b65-af47-b8c9ae982bdc
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column overflows
+		dataType: int64
+		formatString: 0
+		lineageTag: deb56e81-226a-401c-b714-b29e847a5630
+		summarizeBy: sum
+		sourceColumn: overflows
+
+		annotation SummarizationSetBy = Automatic
+
+	column overflows_with_data
+		dataType: int64
+		formatString: 0
+		lineageTag: 0041798e-276b-4a5f-8c2a-8de3361c2e34
+		summarizeBy: sum
+		sourceColumn: overflows_with_data
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_spills
+		dataType: double
+		lineageTag: 40316dab-1757-4ca0-b64e-3438b3e9ba98
+		summarizeBy: sum
+		sourceColumn: total_spills
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_hours
+		dataType: double
+		lineageTag: 836883b2-b87b-4b2d-8001-8177e885d79e
+		summarizeBy: sum
+		sourceColumn: total_hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spills_per_overflow
+		dataType: double
+		lineageTag: 7ef0e5c4-d919-4f07-b849-ff487618118b
+		summarizeBy: sum
+		sourceColumn: spills_per_overflow
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column hours_per_overflow
+		dataType: double
+		lineageTag: 9adfd458-c719-421a-98e4-5d9da032bd34
+		summarizeBy: sum
+		sourceColumn: hours_per_overflow
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_monitors_ok
+		dataType: double
+		lineageTag: 73a80e33-dfaa-4ca5-9622-0318bab2207f
+		summarizeBy: sum
+		sourceColumn: pct_monitors_ok
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column overflows_no_data
+		dataType: int64
+		formatString: 0
+		lineageTag: f3b0f993-a6e8-4bd8-addc-ee29b1d09066
+		summarizeBy: sum
+		sourceColumn: overflows_no_data
+
+		annotation SummarizationSetBy = Automatic
+
+	column ea_spills
+		dataType: double
+		lineageTag: dc1b1eee-72af-410e-8323-d88be47ec950
+		summarizeBy: sum
+		sourceColumn: ea_spills
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ea_hours
+		dataType: double
+		lineageTag: 5a36f36d-7478-4323-a641-1696df88dcdc
+		summarizeBy: sum
+		sourceColumn: ea_hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ea_overflows_listed
+		dataType: int64
+		formatString: 0
+		lineageTag: c1b7d617-8f84-4211-9919-e81834859c05
+		summarizeBy: sum
+		sourceColumn: ea_overflows_listed
+
+		annotation SummarizationSetBy = Automatic
+
+	column diff_spills_pct
+		dataType: double
+		lineageTag: 9f80cf4d-c83f-427a-8db5-58b1a29bf0cc
+		summarizeBy: sum
+		sourceColumn: diff_spills_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column diff_hours_pct
+		dataType: double
+		lineageTag: da3ee143-10fa-4285-8fb7-4a1f57fd65f2
+		summarizeBy: sum
+		sourceColumn: diff_hours_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column diff_overflows
+		dataType: int64
+		formatString: 0
+		lineageTag: 9da5f0b6-9317-45a9-9c65-dea6811e3d99
+		summarizeBy: sum
+		sourceColumn: diff_overflows
+
+		annotation SummarizationSetBy = Automatic
+
+	column ok
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6b0cfd1d-156f-40bd-b9af-5223d4f65da7
+		summarizeBy: none
+		sourceColumn: ok
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 8ea6aae1-a327-462e-b01b-bcdc3e24e0ed
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition reconciliation_vs_ea = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\hira2\Downloads\sewage-spills\sewage-spills\outputs\tables\reconciliation_vs_ea.csv"), [Delimiter = ",", Columns = 18, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"water_company", type text}, {"year", Int64.Type}, {"overflows", Int64.Type}, {"overflows_with_data", Int64.Type}, {"total_spills", type number}, {"total_hours", type number}, {"spills_per_overflow", type number}, {"hours_per_overflow", type number}, {"pct_monitors_ok", type number}, {"overflows_no_data", Int64.Type}, {"ea_spills", type number}, {"ea_hours", type number}, {"ea_overflows_listed", Int64.Type}, {"diff_spills_pct", type number}, {"diff_hours_pct", type number}, {"diff_overflows", Int64.Type}, {"ok", type logical}, {"status", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

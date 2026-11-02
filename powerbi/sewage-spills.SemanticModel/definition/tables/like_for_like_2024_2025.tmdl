@@ -1,0 +1,90 @@
+table like_for_like_2024_2025
+	lineageTag: 0f5157af-2b1a-46d7-968f-293a004dd36c
+
+	column water_company
+		dataType: string
+		lineageTag: e7c4be07-b227-4c36-96bf-1828c2ff73f1
+		summarizeBy: none
+		sourceColumn: water_company
+
+		annotation SummarizationSetBy = Automatic
+
+	column matched_overflows
+		dataType: int64
+		formatString: 0
+		lineageTag: 5b0ed867-cd57-4729-b0fb-1652ab3fa380
+		summarizeBy: none
+		sourceColumn: matched_overflows
+
+		annotation SummarizationSetBy = Automatic
+
+	column hours_2024
+		dataType: double
+		lineageTag: 19f949c1-0839-4ddd-b2fa-4df0a5bdc2f2
+		summarizeBy: none
+		sourceColumn: hours_2024
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column hours_2025
+		dataType: double
+		lineageTag: 6e0eedb6-f551-44ec-b922-94d3b5457a7b
+		summarizeBy: none
+		sourceColumn: hours_2025
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spills_2024
+		dataType: int64
+		formatString: 0
+		lineageTag: 29367a03-39cb-4792-9425-1d6e3307876e
+		summarizeBy: none
+		sourceColumn: spills_2024
+
+		annotation SummarizationSetBy = Automatic
+
+	column spills_2025
+		dataType: int64
+		formatString: 0
+		lineageTag: 1280393a-9780-45d1-847a-c828e9170bb7
+		summarizeBy: none
+		sourceColumn: spills_2025
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_change_hours
+		dataType: double
+		lineageTag: 7ff6aa0e-a5f0-476b-a2d8-62905cc593c7
+		summarizeBy: none
+		sourceColumn: pct_change_hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_change_spills
+		dataType: double
+		lineageTag: cc0418ce-06c3-444f-b8b1-33bf975a76b0
+		summarizeBy: none
+		sourceColumn: pct_change_spills
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition like_for_like_2024_2025 = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\hira2\Downloads\sewage-spills\sewage-spills\outputs\tables\like_for_like_2024_2025.csv"), [Delimiter = ",", Columns = 8, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"water_company", type text}, {"matched_overflows", Int64.Type}, {"hours_2024", type number}, {"hours_2025", type number}, {"spills_2024", Int64.Type}, {"spills_2025", Int64.Type}, {"pct_change_hours", type number}, {"pct_change_spills", type number}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

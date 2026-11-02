@@ -1,0 +1,208 @@
+table edm_annual_2020_2025
+	lineageTag: 2322127b-0c8f-4e1e-adda-36b736d395a0
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 986e8caf-eaa9-4544-a40c-8c10aa92a597
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column water_company
+		dataType: string
+		lineageTag: 929274b1-884b-4a5d-b58f-0fb1a5831e10
+		summarizeBy: none
+		sourceColumn: water_company
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_name
+		dataType: string
+		lineageTag: 80d93ec5-abfa-49eb-9981-c0200b541be6
+		summarizeBy: none
+		sourceColumn: site_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column activity_ref
+		dataType: string
+		lineageTag: ac1ec39e-5509-4a58-bdbe-47aa8352bd6f
+		summarizeBy: none
+		sourceColumn: activity_ref
+
+		annotation SummarizationSetBy = Automatic
+
+	column spill_hours
+		dataType: double
+		lineageTag: a98535ee-2b1c-48ea-ac29-7f7248c369fe
+		summarizeBy: sum
+		sourceColumn: spill_hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spill_count
+		dataType: int64
+		formatString: 0
+		lineageTag: bb4f1515-1144-4fba-b338-54e208203913
+		summarizeBy: sum
+		sourceColumn: spill_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column edm_operation_pct
+		dataType: double
+		lineageTag: 64fffc91-c3b1-4973-927f-07297344f42a
+		summarizeBy: sum
+		sourceColumn: edm_operation_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column source_file
+		dataType: string
+		lineageTag: b254bedc-f699-4a42-8d1a-87198242e829
+		summarizeBy: none
+		sourceColumn: source_file
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_sheet
+		dataType: string
+		lineageTag: 65cbdb15-06b2-4939-b196-1a754ad3f7cf
+		summarizeBy: none
+		sourceColumn: source_sheet
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_name_wasc
+		dataType: string
+		lineageTag: d4a4b06c-6e5f-4dde-b7c5-7329a5675a1d
+		summarizeBy: none
+		sourceColumn: site_name_wasc
+
+		annotation SummarizationSetBy = Automatic
+
+	column permit_ref
+		dataType: string
+		lineageTag: 9ff0c3e0-03ff-454d-acc4-f7befbd535f1
+		summarizeBy: none
+		sourceColumn: permit_ref
+
+		annotation SummarizationSetBy = Automatic
+
+	column asset_type
+		dataType: string
+		lineageTag: 0bd006f7-2412-4b0e-b3e9-b3b0becdf3a3
+		summarizeBy: none
+		sourceColumn: asset_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column outlet_ngr
+		dataType: string
+		lineageTag: 3bc9fb3e-d80a-4bb3-8a9e-7ddbd8c34517
+		summarizeBy: none
+		sourceColumn: outlet_ngr
+
+		annotation SummarizationSetBy = Automatic
+
+	column receiving_water
+		dataType: string
+		lineageTag: 6987d179-5962-4dc0-b97d-88cd94b1d91b
+		summarizeBy: none
+		sourceColumn: receiving_water
+
+		annotation SummarizationSetBy = Automatic
+
+	column wfd_waterbody_id
+		dataType: string
+		lineageTag: 44d1341d-74e1-44fd-b852-b7d719b227f4
+		summarizeBy: none
+		sourceColumn: wfd_waterbody_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column edm_low_reason
+		dataType: string
+		lineageTag: 6a37047b-3b9a-4e0e-a478-f13131b2062a
+		summarizeBy: none
+		sourceColumn: edm_low_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column high_spill_reason
+		dataType: string
+		lineageTag: 8dc68ec1-314a-41cb-b216-e889583f0088
+		summarizeBy: none
+		sourceColumn: high_spill_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_site_name_filled
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f98fc710-b39d-41f0-bc74-63c98c1d7f32
+		summarizeBy: none
+		sourceColumn: flag_site_name_filled
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_no_spill_data
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 02c39161-da65-4aef-b0df-9515247e778d
+		summarizeBy: none
+		sourceColumn: flag_no_spill_data
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_edm_below_90pct
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d729f611-516c-4304-8e7c-11eabe49e5ba
+		summarizeBy: none
+		sourceColumn: flag_edm_below_90pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column easting
+		dataType: string
+		lineageTag: 069c8142-ba89-44e1-8d33-259bc4e85c1f
+		summarizeBy: none
+		sourceColumn: easting
+
+		annotation SummarizationSetBy = Automatic
+
+	column northing
+		dataType: string
+		lineageTag: 8c038742-66a7-488a-ac61-79db0167d2fe
+		summarizeBy: none
+		sourceColumn: northing
+
+		annotation SummarizationSetBy = Automatic
+
+	column overflow_id
+		dataType: string
+		lineageTag: a8cdb083-d41b-48ac-8534-651c08412784
+		summarizeBy: none
+		sourceColumn: overflow_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition edm_annual_2020_2025 = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\hira2\Downloads\sewage-spills\sewage-spills\data\clean\edm_annual_2020_2025.csv"), [Delimiter = ",", Columns = 23, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"year", Int64.Type}, {"water_company", type text}, {"site_name", type text}, {"activity_ref", type text}, {"spill_hours", type number}, {"spill_count", Int64.Type}, {"edm_operation_pct", type number}, {"source_file", type text}, {"source_sheet", type text}, {"site_name_wasc", type text}, {"permit_ref", type text}, {"asset_type", type text}, {"outlet_ngr", type text}, {"receiving_water", type text}, {"wfd_waterbody_id", type text}, {"edm_low_reason", type text}, {"high_spill_reason", type text}, {"flag_site_name_filled", type logical}, {"flag_no_spill_data", type logical}, {"flag_edm_below_90pct", type logical}, {"easting", type text}, {"northing", type text}, {"overflow_id", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+
