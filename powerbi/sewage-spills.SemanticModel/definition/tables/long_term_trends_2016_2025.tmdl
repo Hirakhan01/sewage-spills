@@ -1,6 +1,38 @@
 table long_term_trends_2016_2025
 	lineageTag: 8212fafd-06c4-4296-8ac4-502d2a19ab39
 
+	/// EA-published average spills per monitored overflow for the selected year; blank unless exactly one year is in context because averages cannot be added.
+	measure 'EA Spills per Overflow' =
+			IF(
+			    HASONEVALUE('Dim Year'[Year]),
+			    SUM(long_term_trends_2016_2025[avg_spills_per_overflow])
+			)
+		formatString: #,##0.0
+		displayFolder: EA long-term
+		lineageTag: 2311fe9f-806d-4f6e-83b2-10895f2d3762
+
+	/// EA-published average spill hours per monitored overflow for the selected year; blank unless exactly one year is in context because averages cannot be added.
+	measure 'EA Hours per Overflow' =
+			IF(
+			    HASONEVALUE('Dim Year'[Year]),
+			    SUM(long_term_trends_2016_2025[hours_per_overflow])
+			)
+		formatString: #,##0.0
+		displayFolder: EA long-term
+		lineageTag: 1b6a7c8f-fcd8-4ca4-b2c7-d312583ee432
+
+	/// Total spill hours from the EA long-term trends series (2016 onwards), summed over the years in context.
+	measure 'EA Total Spill Hours' = SUM(long_term_trends_2016_2025[total_hours])
+		formatString: #,##0
+		displayFolder: EA long-term
+		lineageTag: 52e4cab3-a882-403d-b5b2-0be17a7e921c
+
+	/// Number of overflows with monitoring data in the EA long-term series; across several years this counts overflow-years, not distinct overflows.
+	measure 'EA Overflows With Data' = SUM(long_term_trends_2016_2025[overflows_with_data])
+		formatString: #,##0
+		displayFolder: EA long-term
+		lineageTag: 00784774-dd28-483d-a1ee-78183fcb9861
+
 	column year
 		dataType: int64
 		isHidden

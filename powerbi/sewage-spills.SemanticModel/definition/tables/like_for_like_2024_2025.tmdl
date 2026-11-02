@@ -1,6 +1,50 @@
 table like_for_like_2024_2025
 	lineageTag: 0f5157af-2b1a-46d7-968f-293a004dd36c
 
+	/// Change in spill hours from 2024 to 2025 counting only overflows present in both years, recalculated from hours so it totals correctly across companies.
+	measure 'LFL % Change Hours' =
+			VAR _hours2024 = CALCULATE(SUM(like_for_like_2024_2025[hours_2024]), KEEPFILTERS(like_for_like_2024_2025[water_company] <> "ALL COMPANIES"))
+			VAR _hours2025 = CALCULATE(SUM(like_for_like_2024_2025[hours_2025]), KEEPFILTERS(like_for_like_2024_2025[water_company] <> "ALL COMPANIES"))
+			RETURN
+			    DIVIDE(_hours2025 - _hours2024, _hours2024)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Like-for-like
+		lineageTag: 64e94150-bdd0-4fbf-92a2-775d7b2ae0cd
+
+	/// Change in spill count from 2024 to 2025 counting only overflows present in both years, recalculated from counts so it totals correctly across companies.
+	measure 'LFL % Change Spills' =
+			VAR _spills2024 = CALCULATE(SUM(like_for_like_2024_2025[spills_2024]), KEEPFILTERS(like_for_like_2024_2025[water_company] <> "ALL COMPANIES"))
+			VAR _spills2025 = CALCULATE(SUM(like_for_like_2024_2025[spills_2025]), KEEPFILTERS(like_for_like_2024_2025[water_company] <> "ALL COMPANIES"))
+			RETURN
+			    DIVIDE(_spills2025 - _spills2024, _spills2024)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Like-for-like
+		lineageTag: f348f60e-677a-4bb5-b478-832e3cb29641
+
+	/// Number of overflows reported in both 2024 and 2025, excluding the ALL COMPANIES summary row to avoid double counting.
+	measure 'LFL Matched Overflows' =
+			CALCULATE(
+			    SUM(like_for_like_2024_2025[matched_overflows]),
+			    KEEPFILTERS(like_for_like_2024_2025[water_company] <> "ALL COMPANIES")
+			)
+		formatString: #,##0
+		displayFolder: Like-for-like
+		lineageTag: 3309037a-609c-4673-8747-e827c8118e8d
+
+	/// England-wide like-for-like change in spill hours from the ALL COMPANIES row, ignoring any company selection so it can serve as a reference line.
+	measure 'LFL % Change Hours (All Companies)' =
+			CALCULATE(
+			    DIVIDE(
+			        SUM(like_for_like_2024_2025[hours_2025]) - SUM(like_for_like_2024_2025[hours_2024]),
+			        SUM(like_for_like_2024_2025[hours_2024])
+			    ),
+			    REMOVEFILTERS('Dim Company'),
+			    like_for_like_2024_2025[water_company] = "ALL COMPANIES"
+			)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Like-for-like
+		lineageTag: ffdec850-a955-4410-ae00-342a2f87a088
+
 	column water_company
 		dataType: string
 		isHidden

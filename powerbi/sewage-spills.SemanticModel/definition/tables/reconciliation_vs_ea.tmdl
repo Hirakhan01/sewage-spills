@@ -1,6 +1,34 @@
 table reconciliation_vs_ea
 	lineageTag: 7344da1e-4816-43db-b8bc-c756647cd7d6
 
+	/// Number of company-year totals that match the EA's published figures within tolerance (status = ok).
+	measure 'Company-Years Validated' =
+			CALCULATE(
+			    COUNTROWS(reconciliation_vs_ea),
+			    KEEPFILTERS(reconciliation_vs_ea[status] = "ok")
+			)
+		formatString: #,##0
+		displayFolder: Validation
+		lineageTag: 65dee851-3849-4777-bcc3-180a5dd276ff
+
+	/// Number of company-year totals compared against the EA's published figures, whether they passed (ok) or need review (CHECK).
+	measure 'Company-Years Checked' =
+			CALCULATE(
+			    COUNTROWS(reconciliation_vs_ea),
+			    KEEPFILTERS(reconciliation_vs_ea[status] IN {"ok", "CHECK"})
+			)
+		formatString: #,##0
+		displayFolder: Validation
+		lineageTag: 80d547b5-935c-4b28-a757-2abb70eff93d
+
+	/// Text summary of validated versus checked company-years, such as 59 / 60, for a card or subtitle.
+	measure 'Validation Label' =
+			FORMAT(COALESCE([Company-Years Validated], 0), "0")
+			    & " / "
+			    & FORMAT(COALESCE([Company-Years Checked], 0), "0")
+		displayFolder: Validation
+		lineageTag: d9bc5504-4766-40eb-abda-01b0caad4751
+
 	column water_company
 		dataType: string
 		isHidden

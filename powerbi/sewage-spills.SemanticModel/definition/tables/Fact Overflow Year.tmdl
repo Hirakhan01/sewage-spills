@@ -54,6 +54,86 @@ table 'Fact Overflow Year'
 		displayFolder: Core
 		lineageTag: 0375bd5e-de52-4f83-bfd5-5e072a2de334
 
+	/// Total Spill Hours for the year before the selected year; blank unless exactly one Dim Year is in context.
+	measure 'Spill Hours PY' =
+			VAR _year = SELECTEDVALUE('Dim Year'[Year])
+			RETURN
+			    IF(
+			        NOT ISBLANK(_year),
+			        CALCULATE([Total Spill Hours], 'Dim Year'[Year] = _year - 1)
+			    )
+		formatString: #,##0
+		displayFolder: Year on year
+		lineageTag: 9574d70c-974c-4f3c-a981-a9e625cb3eba
+
+	/// Spills per Overflow for the year before the selected year; blank unless exactly one Dim Year is in context.
+	measure 'Spills per Overflow PY' =
+			VAR _year = SELECTEDVALUE('Dim Year'[Year])
+			RETURN
+			    IF(
+			        NOT ISBLANK(_year),
+			        CALCULATE([Spills per Overflow], 'Dim Year'[Year] = _year - 1)
+			    )
+		formatString: #,##0.0
+		displayFolder: Year on year
+		lineageTag: cb002b2a-5c3d-45ea-b6e3-03abb8a598b8
+
+	/// Hours per Overflow for the year before the selected year; blank unless exactly one Dim Year is in context.
+	measure 'Hours per Overflow PY' =
+			VAR _year = SELECTEDVALUE('Dim Year'[Year])
+			RETURN
+			    IF(
+			        NOT ISBLANK(_year),
+			        CALCULATE([Hours per Overflow], 'Dim Year'[Year] = _year - 1)
+			    )
+		formatString: #,##0.0
+		displayFolder: Year on year
+		lineageTag: 07a3eddc-2b19-4101-bc4e-e4a3fa1d7557
+
+	/// Percentage change in Total Spill Hours versus the previous year; blank when either year has no data.
+	measure '% Change Spill Hours vs PY' =
+			VAR _current = [Total Spill Hours]
+			VAR _previous = [Spill Hours PY]
+			RETURN
+			    IF(
+			        NOT ISBLANK(_current) && NOT ISBLANK(_previous),
+			        DIVIDE(_current - _previous, _previous)
+			    )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Year on year
+		lineageTag: c93d96cf-9eb5-41c9-adfe-76d1746039eb
+
+	/// Percentage change in Hours per Overflow versus the previous year, which adjusts for the number of overflows reporting.
+	measure '% Change Hours per Overflow vs PY' =
+			VAR _current = [Hours per Overflow]
+			VAR _previous = [Hours per Overflow PY]
+			RETURN
+			    IF(
+			        NOT ISBLANK(_current) && NOT ISBLANK(_previous),
+			        DIVIDE(_current - _previous, _previous)
+			    )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Year on year
+		lineageTag: 5a7cb328-a84a-4eb0-885d-f848fa5ebbbe
+
+	/// Rank of the company by Hours per Overflow among all companies for the year(s) in context, where 1 is the most hours per overflow; ignores company slicers (values rounded to 6 decimals to avoid floating-point ties).
+	measure 'Company Rank (Hours per Overflow)' =
+			VAR _current = [Hours per Overflow]
+			RETURN
+			    IF(
+			        HASONEVALUE('Dim Company'[Water Company]) && NOT ISBLANK(_current),
+			        RANKX(
+			            ALLNOBLANKROW('Dim Company'[Water Company]),
+			            ROUND([Hours per Overflow], 6),
+			            ROUND(_current, 6),
+			            DESC,
+			            DENSE
+			        )
+			    )
+		formatString: 0
+		displayFolder: Year on year
+		lineageTag: 79af1bf3-fcc8-4411-bf84-d30c2ae964ff
+
 	column year
 		dataType: int64
 		isHidden
