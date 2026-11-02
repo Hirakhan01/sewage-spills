@@ -26,6 +26,7 @@ import io
 import re
 import sys
 import zipfile
+from datetime import datetime, time, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -63,7 +64,10 @@ COLUMN_RULES = {
 }
 
 SKIP_SHEET_WORDS = ["readme", "read me", "guide", "summary", "contents", "notes",
-                    "key", "trend", "glossary", "definitions", "index"]
+                    "key", "trend", "glossary", "definitions", "index",
+                    # 2025 workbook has an "All WaSC" sheet that repeats every
+                    # company sheet - reading both would double-count everything
+                    "all wasc", "all water", "all compan"]
 
 NUMERIC_COLS = ["spill_count", "spill_hours", "edm_operation_pct"]
 
@@ -97,6 +101,42 @@ def find_header_row(raw: pd.DataFrame, max_scan: int = 25):
         if "site" in cells and ("spill" in cells or "duration" in cells):
             return i
     return None
+
+
+# --------------------------------------------------------------------------
+# 1b. Durations -> decimal hours
+#     2020-2023 returns give hours as numbers (24.82). From 2024 the EA switched
+#     to hh:mm:ss, and Excel stores those three different ways depending on the
+#     cell: timedelta (over 24h), time (under 24h) or text ('00:00:00').
+# --------------------------------------------------------------------------
+EXCEL_EPOCH = datetime(1899, 12, 30)
+
+
+def to_hours(v):
+    """Convert any duration format found in the returns to decimal hours."""
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return float("nan")
+    if isinstance(v, bool):
+        return float("nan")
+    if isinstance(v, (int, float)):
+        return float(v)
+    if isinstance(v, timedelta):
+        return v.total_seconds() / 3600
+    if isinstance(v, datetime):           # >24h durations sometimes come out as dates
+        # openpyxl shifts serials below 60 by a day (Excel's 1900 leap-year bug)
+        epoch = EXCEL_EPOCH if v >= datetime(1900, 3, 1) else datetime(1899, 12, 31)
+        return (v - epoch).total_seconds() / 3600
+    if isinstance(v, time):
+        return v.hour + v.minute / 60 + v.second / 3600 + v.microsecond / 3.6e9
+    s = str(v).strip().replace(",", "")
+    m = re.fullmatch(r"(?:(\d+)\s+days?,?\s*)?(\d+):(\d{1,2})(?::(\d{1,2}(?:\.\d+)?))?", s)
+    if m:                                  # '00:00:00', '123:45:00', '2 days, 03:00:00'
+        days, h, mi, sec = m.groups()
+        return int(days or 0) * 24 + int(h) + int(mi) / 60 + float(sec or 0) / 3600
+    try:
+        return float(s)                    # '24.82'
+    except ValueError:
+        return float("nan")                # 'N/A', 'not monitored', etc.
 
 
 # --------------------------------------------------------------------------
@@ -134,7 +174,7 @@ def iter_workbooks(raw_dir: Path):
         if path.suffix.lower() == ".zip":
             with zipfile.ZipFile(path) as z:
                 for member in z.namelist():
-                    if member.lower().endswith((".xlsx", ".xls")) and not re.search(r"readme|guide|trend", member, re.I):
+                    if member.lower().endswith((".xlsx", ".xls")) and not re.search(r"readme|guide|trend|summary", member, re.I):
                         year = re.search(r"20\d{2}", member) or re.search(r"20\d{2}", name)
                         yield f"{name}/{member}", int(year.group()) if year else None, io.BytesIO(z.read(member))
         elif path.suffix.lower() in (".xlsx", ".xls"):
@@ -182,6 +222,9 @@ def process_workbook(label, year, fileobj, mapping_log, skipped_log):
 # 4. Cleaning
 # --------------------------------------------------------------------------
 def clean(df: pd.DataFrame) -> pd.DataFrame:
+    # Durations first, while the raw Excel types (timedelta/time) are still intact
+    df["spill_hours"] = df["spill_hours"].map(to_hours).astype(float)
+
     # Text tidy-up
     for col in df.columns:
         if df[col].dtype == object and col not in NUMERIC_COLS:
@@ -189,7 +232,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
 
     # Numbers: remove commas, turn things like "N/A" into blanks
     for col in NUMERIC_COLS:
-        if col in df:
+        if col in df and col != "spill_hours":
             df[col] = pd.to_numeric(df[col].astype("string").str.replace(",", ""), errors="coerce")
 
     # EDM operation is sometimes stored as 0-1 rather than 0-100
@@ -233,6 +276,18 @@ def quality_report(df: pd.DataFrame):
     if "flag_edm_below_90pct" in df:
         agg["flag_edm_below_90pct"] = "sum"
     print(df.groupby("year").agg(agg).round(0).to_string())
+    print("\n    EA published totals for comparison (England):")
+    print("    2023: ~464,000 spills / ~3.61m hours | 2024: ~450,000 / ~3.61m | 2025: ~291,500 / ~1.88m")
+
+    if "overflow_id" in df:
+        dupes = df[df["overflow_id"].str.strip("|") != ""].duplicated(
+            ["year", "water_company", "overflow_id", "site_name"]).groupby(df["year"]).sum()
+        print("\n=== Duplicate overflow rows per year (should be ~0) ===")
+        print(dupes.to_string())
+
+    print("\n=== Spill hours by company and year (thousands) ===")
+    print((df.pivot_table(index="water_company", columns="year", values="spill_hours",
+                          aggfunc="sum") / 1000).round(0).to_string())
     print("\n=== Missing values per column (%) ===")
     print((df.isna().mean() * 100).round(1).sort_values(ascending=False).to_string())
 
