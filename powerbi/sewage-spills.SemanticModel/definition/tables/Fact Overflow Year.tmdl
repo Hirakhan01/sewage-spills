@@ -1,6 +1,59 @@
 table 'Fact Overflow Year'
 	lineageTag: 2322127b-0c8f-4e1e-adda-36b736d395a0
 
+	/// Total storm overflow spills, counted with the EA 12/24-hour method, summed across all overflows in the current filter.
+	measure 'Total Spills' = SUM('Fact Overflow Year'[spill_count])
+		formatString: #,##0
+		displayFolder: Core
+		lineageTag: 683e5312-1916-4d2b-b786-49ed893e2f69
+
+	/// Total spill duration in hours across all overflows in the current filter (duration, not sewage volume).
+	measure 'Total Spill Hours' = SUM('Fact Overflow Year'[spill_hours])
+		formatString: #,##0
+		displayFolder: Core
+		lineageTag: ad723370-4f39-4d1d-9eaa-8daf64f8174f
+
+	/// Number of overflow-year rows listed in the annual returns, including overflows that reported no spill data.
+	measure 'Overflows Listed' = COUNTROWS('Fact Overflow Year')
+		formatString: #,##0
+		displayFolder: Core
+		lineageTag: e252f3d3-80ad-4464-a5ba-edaa5bb63a24
+
+	/// Number of overflow-year rows that reported a spill count, used as the denominator for per-overflow averages.
+	measure 'Overflows With Data' =
+			CALCULATE(
+			    COUNTROWS('Fact Overflow Year'),
+			    KEEPFILTERS(NOT ISBLANK('Fact Overflow Year'[spill_count]))
+			)
+		formatString: #,##0
+		displayFolder: Core
+		lineageTag: b3109bf5-e2ec-47cd-9759-c4f1c7801be7
+
+	/// Average spills per overflow, counting only overflows that reported spill data.
+	measure 'Spills per Overflow' = DIVIDE([Total Spills], [Overflows With Data])
+		formatString: #,##0.0
+		displayFolder: Core
+		lineageTag: b330ba60-47fc-4f62-bfa4-2c2883290aad
+
+	/// Average spill hours per overflow, counting only overflows that reported spill data.
+	measure 'Hours per Overflow' = DIVIDE([Total Spill Hours], [Overflows With Data])
+		formatString: #,##0.0
+		displayFolder: Core
+		lineageTag: a2b00500-a932-49a1-80af-22668ffece67
+
+	/// Share of all listed overflows whose monitor worked at least 90% of the year; a blank monitor reading counts as not OK.
+	measure '% Monitors OK' =
+			DIVIDE(
+			    CALCULATE(
+			        COUNTROWS('Fact Overflow Year'),
+			        KEEPFILTERS('Fact Overflow Year'[edm_operation_pct] >= 90)
+			    ),
+			    COUNTROWS('Fact Overflow Year')
+			)
+		formatString: 0.0%
+		displayFolder: Core
+		lineageTag: 0375bd5e-de52-4f83-bfd5-5e072a2de334
+
 	column year
 		dataType: int64
 		isHidden

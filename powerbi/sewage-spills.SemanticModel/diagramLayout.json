@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 871.20001220703125,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 902.62216291713662,
+            "y": -50
+          },
+          "nodeIndex": "like_for_like_2024_2025",
+          "nodeLineageTag": "0f5157af-2b1a-46d7-968f-293a004dd36c",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.20225510460887,
+            "y": 109.88668757863462
+          },
+          "nodeIndex": "long_term_trends_2016_2025",
+          "nodeLineageTag": "8212fafd-06c4-4296-8ac4-502d2a19ab39",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 618.41040181545566,
+            "y": -5.6213022308609482
+          },
+          "nodeIndex": "reconciliation_vs_ea",
+          "nodeLineageTag": "7344da1e-4816-43db-b8bc-c756647cd7d6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 148.11884566694738
+          },
+          "nodeIndex": "Fact Overflow Year",
+          "nodeLineageTag": "2322127b-0c8f-4e1e-adda-36b736d395a0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136.6221629171366,
+            "y": 149.05942283347369
+          },
+          "nodeIndex": "Dim Company",
+          "nodeLineageTag": "6ccdca84-3a39-46cd-8528-3fad5fa7f38c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420.6221629171366,
+            "y": 149.05942283347369
+          },
+          "nodeIndex": "Dim Year",
+          "nodeLineageTag": "8179d8e3-920c-45da-a7f1-929cff3ae65e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
