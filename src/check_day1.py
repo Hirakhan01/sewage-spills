@@ -61,3 +61,5 @@ if csv.exists():
     print("\n##### Spill hours by company, 2020 (checking for missing companies)")
     print(df[df.year == 2020].groupby("water_company")["spill_hours"]
           .agg(total="sum", rows_missing=lambda s: s.isna().sum()).round(0).to_string())
+
+
